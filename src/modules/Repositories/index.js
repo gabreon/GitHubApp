@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   FlatList,
+  StatusBar,
   ScrollView,
   StyleSheet,
   AsyncStorage,
@@ -31,6 +32,15 @@ class Repositories extends Component {
   logOut = async () => {
     await AsyncStorage.clear();
 
+    /*
+    try {
+      await AsyncStorage.removeItem('@gitHubApp:user');
+    }
+    catch (exception) {
+      console.log('a')
+    }
+    */
+
     this.props.navigation.navigate('Login');
   }
 
@@ -42,10 +52,10 @@ class Repositories extends Component {
 
     let isChecked = [...this.state.isChecked]
 
-    for(let i = 0; i < count; i++){
+    for (let i = 0; i < count; i++) {
       let teste = await AsyncStorage.getItem(`@isCheckedItem:${i}`)
 
-      if(teste === null || teste === 'false') { isChecked[i] = false } else { isChecked[i] = true }
+      if (teste === null || teste === 'false') { isChecked[i] = false } else { isChecked[i] = true }
     }
 
     this.setState({ isChecked })
@@ -54,20 +64,27 @@ class Repositories extends Component {
   }
 
   static navigationOptions = ({ navigation }) => {
+    const styles = {
+      color: '#fff',
+      marginRight: 20,
+      fontFamily: 'Damascus',
+    };
+
     return {
       headerTitle: (
-        <Image source={require('../../../assets/GitHub-Mark-Light-32px.png')} style={{marginBottom: 10}}/>
+        <Image source={require('../../../assets/GitHub-Mark-Light-32px.png')} style={{marginLeft: 20,}} />
       ),
       headerRight: (
         <TouchableOpacity
-          style={{ marginRight: 30 }}
           onPress={navigation.getParam('logOut')}
         >
-          <Text style={{ color: '#fff', fontFamily: 'DamascusLight', borderWidth: 0.5, borderColor: '#fff', borderRadius: 5, paddingVertical: 5, paddingHorizontal: 10, marginBottom: 5 }}>Sair</Text>
+          <Text style={styles}>Sair</Text>
         </TouchableOpacity>
       ),
       headerStyle: {
-        backgroundColor: '#000',
+        backgroundColor: '#26292b',
+        paddingVertical: 20,
+        marginTop: 20,
       },
     }
   }
@@ -108,13 +125,13 @@ class Repositories extends Component {
     );
   };
 
-  isCheckedItem= async (length) => {
+  isCheckedItem = async (length) => {
     let isChecked = [...this.state.isChecked]
 
-    for(let i = 0; i< length; i++){
+    for (let i = 0; i < length; i++) {
       let item = await AsyncStorage.getItem(`@isCheckedItem:${i}`)
 
-      if(item === null || item === "false")
+      if (item === null || item === "false")
         isChecked[i] = false
       else
         isChecked[i] = true
@@ -128,10 +145,12 @@ class Repositories extends Component {
 
     return (
       <ScrollView style={styles.container}>
+        <StatusBar  barStyle="light-content" translucent={true} />
+        
         <View style={styles.list}>
           {
             repositories.loading
-              ? <ActivityIndicator syze="small" />
+              ? <ActivityIndicator size="small" style={styles.container}/>
               :
               <FlatList
                 data={repositories.data}
@@ -149,8 +168,8 @@ class Repositories extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e6e4e1',
-    paddingHorizontal: 30,
+    backgroundColor: '#ebebeb',
+    paddingHorizontal: 20,
   },
   header: {
     marginVertical: 10,
@@ -170,6 +189,7 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 18,
     marginTop: 10,
+    color: '#1661e0',
     fontFamily: 'DamascusBold',
   },
   language: {

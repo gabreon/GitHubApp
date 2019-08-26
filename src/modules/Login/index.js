@@ -29,13 +29,13 @@ class Login extends Component {
       const response = await api.get(`users/${user}`);
 
       if (response) {
-        await AsyncStorage.setItem('@gitHubApp:user', response.data.login)
-        await AsyncStorage.setItem('@gitHubApp:repos', response.data.public_repos)
+        await AsyncStorage.setItem('@gitHubApp:user', String(response.data.login))
+        await AsyncStorage.setItem('@gitHubApp:repos', String(response.data.public_repos))
 
         this.props.navigation.navigate('Logged');
       }
     } catch (e) {
-      Alert.alert('Atenção', 'Usuário não encontrado', [{ text: 'Ok' }])
+      Alert.alert('Atenção', e.message, [{ text: 'Ok' }])
     }
   }
 
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 50,
-    backgroundColor: '#e6e4e1',
+    backgroundColor: '#ebebeb',
   },
   input: {
     height: 40,

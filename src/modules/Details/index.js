@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet, Text } from 'react-native';
+import { View, Linking, StyleSheet, Text } from 'react-native';
 
 class Details extends Component {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = () => {
     return {
-      headerStyle: { backgroundColor: '#000' },
+      headerStyle: { backgroundColor: '#26292b' },
       headerTintColor: '#fff',
       headerTitle: 'Detalhes'
     }
@@ -16,7 +16,7 @@ class Details extends Component {
       <View style={styles.container}>
         <View style={styles.itemContainer}>
           <Text style={styles.title}>{repo.name}</Text>
-          <Text style={styles.url}>{repo.html_url}</Text>
+          <Text style={styles.url} onPress={() => Linking.openURL(repo.html_url)}>{repo.html_url}</Text>
 
           <View style={styles.subItemsContainer}>
             <Text style={styles.subItems}>Watchers: {repo.watchers_count}</Text>
@@ -34,7 +34,7 @@ class Details extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e6e4e1',
+    backgroundColor: '#ebebeb',
   },
   itemContainer: {
     marginHorizontal: 30,
@@ -42,11 +42,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
+    color: '#1661e0',
     fontFamily: 'DamascusBold',
   },
   url: {
-    fontSize: 12,
+    fontSize: 14,
+    color: '#1b8fe3',
+    marginVertical: 3,
     fontFamily: 'DamascusLight',
+    textDecorationLine: 'underline',
   },
   descriptionContainer: {
     marginVertical: 10,
